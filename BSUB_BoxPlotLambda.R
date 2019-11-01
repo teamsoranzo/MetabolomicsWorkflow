@@ -1,0 +1,1 @@
+echo 'Rscript /nfs/users/nfs_l/lb17/My_Script_2016/int_wes_metabol_Scripts/BoxPlotLambda.R --ID=${LSB_JOBINDEX}' | bsub -J 'Approach[1-3]' -o /nfs/users/nfs_l/lb17/My_Script_2016/int_wes_metabol_Scripts/LogJobs/BoxPlotLambda_inverse_norm_Appr%I.out -R "select[mem>=500] rusage[mem=500]" -M500 -q normal

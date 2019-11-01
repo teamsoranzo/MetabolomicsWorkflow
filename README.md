@@ -1,9 +1,9 @@
 # MetabolomicsWorkflow
 Stores all scripts and an Analysis workflow description for analayzing metabolomics WES in INTERVAL.
 
-#### Analysis workflow on large scale metabolomics
-###  Based on INTERVAL WES - METABOLON data
-## Lorenzo Bomba 2019
+# Analysis workflow on large scale metabolomics
+##  Based on INTERVAL WES - METABOLON data
+### Lorenzo Bomba 2019
 #################
 
 path for the variant group file generated using Klaudia Algorithm:
@@ -23,27 +23,23 @@ functional <- Exonic variants with High or moderate impact annot from VEP.
 LoF <- Exonic vaariants with LoF HC from Loftee VEP plugin
 see VEPannot_selectVarforApproachMAF.R 
 
-
 N.B.: Monomorphic sites removed.
-
-## Run in All metabolites 17Feb2017
-
 N.B.: this analysis is conducted in indivisulas that are not related 
 (i.e. excluding any relatedness above third degree; Pi_HAT < 0.125). 
 In total 3924 individuals were analysed.
 All the scripts have the corresponding BSUB_* script used to submitted parallel jobs unless specify. 
 
 ##################
-### Analysis #####
+# Analysis
 ##################
 
-#### Preparing files for raremetalworker
+## Preparing files for raremetalworker
 
 1) SelectIndsVCFforRaremetalNoREl.sh # selecting individuals from vcf files to use as input for raremetalworker
 
 2) CreateInputforRareMetalWorkerVCFformat_InverseRankPheno_NoREl_1.0.sh # creating the gped and map file as input for raremetalworker
 
-### Raremetalworker analysis
+## Raremetalworker analysis
 
 3) Run_RareMetalWorkerVCFformat_InverseRankPheno_1.0_BasementNoREl.sh # Run raremetalworker on the bigger chromosome see list form the BSUB_*
 
@@ -55,7 +51,7 @@ All the scripts have the corresponding BSUB_* script used to submitted parallel 
 
 7) createSummaryFileListRaremetal_1.0_AllMet.sh
 
-### Raremetal analysis
+## Raremetal analysis
 
 8a) BSUB_run_raremetal_INTERVAL_inverse_norm_naive_AllMet_1.0.sh
 run_raremetal_INTERVAL_inverse_norm_naive_AllMet_1.0.sh
@@ -68,7 +64,7 @@ run_raremetal_INTERVAL_inverse_norm_LoF_AllMet_1.0.sh
 
 9) MoveFailed.sh - move files in other directory because failed due to not enough samples with phenoytpe.
 
-### Merge and annotate results files from raremetal and raremetalworkers
+## Merge and annotate results files from raremetal and raremetalworkers
 
 10a) BSUB_MergeResChrAllraremetal_AllMet_invers_norm_XApproach_GeneBased_1.0.sh # Merge the resulting splitted Chrmomosomes in Genebased meth
 MergeResChrAllraremetal_AllMet_invers_norm_XApproach_GeneBased_1.0.sh
@@ -76,13 +72,15 @@ MergeResChrAllraremetal_AllMet_invers_norm_XApproach_GeneBased_1.0.sh
 10b) BSUB_MergeResChrAllraremetal_AllMet_invers_norm_XApproach_SingleVar_1.0.sh # Merge the resulting splitted Chrmomosomes in single var
 MergeResChrAllraremetal_AllMet_invers_norm_XApproach_SingleVar_1.0.sh
 
-### If some raremetal jobs fail this is a script to rerun selecting metabolites and chromosomes that failed:
+## If some raremetal jobs fail this is a script to rerun selecting metabolites and chromosomes that failed:
 RESUB_Exit_BSUB_run_raremetal_INTERVAL_inverse_norm_naive_AllMet_1.0.sh
 RESUB_Exit_BSUB_run_raremetal_INTERVAL_inverse_norm_functional_AllMet_1.0.sh
 RESUB_Exit_BSUB_run_raremetal_INTERVAL_inverse_norm_LoF_AllMet_1.0.sh
 
 
-### Accessory scripts to create statistics and follow-up analysis on RVT results
+# Accessory scripts to create statistics and follow-up analysis on RVT results
+
+## Statistics
 
 11)BSUB_CalculateNumVarandWinTestedRaremetal_invers_norm.sh # simple statistic on number of variants and number of windows analysed
 CalculateNumVarandWinTestedRaremetal_invers_norm.sh
@@ -109,29 +107,29 @@ BSUB_MergeTableResults.sh
 GzipIndexRaremetalworkerWESresults.sh
 
 
-# retrieve annotaion for gene and variants using VEP plugins and as annotation file a GFF3 of GENCODE version 24
+## retrieve annotaion for gene and variants using VEP plugins and as annotation file a GFF3 of GENCODE version 24
 18)Vep_phenotype.sh
 19)Vep_phenotype_extra.sh
 
 20)Select_CutoffPval_MergeMetabolites_GeneBased_AllHits.sh #This script is just combining all the metabolites without any pvalue threshold in place (all the hits included)
 
-# ExtractPvalAllHits.sh #Extract from the output of the  preovius sh only the Pvalue and a unique ID win-met-test-approach combinig all the approaches
+## ExtractPvalAllHits.sh #Extract from the output of the  preovius sh only the Pvalue and a unique ID win-met-test-approach combinig all the approaches
 21)ExtractPvalFDRapp.sh
 22)ExtractPvalFDRapp.sh
 23)ExtractPvalFDRapptest.sh
 
 
-# these scripts calclute the FDR (padj BH) using all the pvals, pvals divided by approach and pvals dividide by approach and test
+## these scripts calclute the FDR (padj BH) using all the pvals, pvals divided by approach and pvals dividide by approach and test
 24)calculateFDR.R 
 25)calculateFDRapp.R
 26)calculateFDRapptest.R 
 
-# Drop one variant at the time and ricalculate the RVT for each approach
+## Drop one variant at the time and ricalculate the RVT for each approach
 27)DropVariant_inWin_LoF.sh
 28)DropVariant_inWin_functional.sh
 29)DropVariant_inWin_naive.sh
 
-# Add one variant at the time based on the magnitude of the deviation of dropone pvalue RVT and initial full model pvalue RVT  and recalculate the RVT each time and for each approach 
+## Add one variant at the time based on the magnitude of the deviation of dropone pvalue RVT and initial full model pvalue RVT  and recalculate the RVT each time and for each approach 
 30)AddVariant_inWin_naive.sh
 31)AddVariant_inWin_LoF.sh
 32)AddVariant_inWin_functional.sh
